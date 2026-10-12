@@ -14,13 +14,9 @@ public class Cola {
 
     public void agregar(Pasajero p) {
         //Validamos que el pasajero no sea null o que su nombre no sea invalido(vacios o espacios).
-        //Utilizamos el trim como mas seguridad para borrar los espacios
+        //Utilizamos el trim como mas seguridad para borrar los espacios del principio y final
         if (p == null|| p.getNombre() == null|| p.getNombre().trim().isEmpty())  {
             throw new IllegalArgumentException("El pasajero o nombre no son validos");
-        }
-        //Validar que este entre 1 y 30
-        if (p.getNumeroAsiento()<1 || p.getNumeroAsiento()>30) {
-            throw new IllegalArgumentException("El numero de asiento debe estar entre 1 y 30.");
         }
         //Ver que no tengan el mismo numero de asiento
         for (Pasajero existente : coleccion) { //Bucle for each
@@ -43,11 +39,7 @@ public class Cola {
                 contEconomica++;
             }
         }
-        // Validar límites estrictos
-        String nuevoTipo = p.getTipoAsiento();
-        if (nuevoTipo.equals("PRIMERA CLASE") && contPrimera >= 6) {
-            throw new IllegalArgumentException("¡Primera Clase llena! Máximo 6 asientos.");
-        }
+
         // Validar que el nombre solo contenga letras y espacios
         String nombre = p.getNombre();
         for (int i = 0; i < nombre.length(); i++) {
@@ -58,15 +50,17 @@ public class Cola {
                 throw new IllegalArgumentException("El nombre solo puede contener letras y espacios.");
             }
         }
-
+        // Validar límites estrictos
+        String nuevoTipo = p.getTipoAsiento();
+        if (nuevoTipo.equals("PRIMERA CLASE") && contPrimera >= 6) {
+            throw new IllegalArgumentException("¡Primera Clase llena! Máximo 6 asientos.");
+        }
         if (nuevoTipo.equals("EJECUTIVA") && contEjecutiva >= 9) {
             throw new IllegalArgumentException("¡Clase Ejecutiva llena! Máximo 9 asientos.");
         }
         if (nuevoTipo.equals("ECONOMICA") && contEconomica >= 15) {
             throw new IllegalArgumentException("¡Clase Económica llena! Máximo 15 asientos.");
         }
-
-
 
         coleccion.offer(p);
     }
