@@ -7,6 +7,7 @@ public class Pasajero {
     private final double precio;
     private boolean checkin;
 
+    // Constructor 1
     public Pasajero(String nombre, int numeroAsiento, String tipoAsiento, String fecha, String hora) {
         this.nombre = nombre;
         this.numeroAsiento = numeroAsiento;
@@ -24,6 +25,13 @@ public class Pasajero {
         }
         this.precio = p;
         this.checkin = false;
+    }
+
+    // Constructor 2: los 3 argumentos, para que pasen las pruebas unitarias)
+    public Pasajero(String nombre, int numeroAsiento, String tipoAsiento) {
+        this(nombre, numeroAsiento, tipoAsiento,
+                java.time.LocalDate.now().toString(),
+                java.time.LocalTime.now().format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")));
     }
 
     public String getNombre() {
