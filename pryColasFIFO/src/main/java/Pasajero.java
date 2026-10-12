@@ -73,4 +73,17 @@ public class Pasajero {
                 + " | Hora: " + hora + " | Precio: $" + precio
                 + " | Check-in: " + checkin;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pasajero pasajero = (Pasajero) o;
+        return numeroAsiento == pasajero.numeroAsiento;
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(numeroAsiento);
+    }
 }

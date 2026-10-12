@@ -126,8 +126,28 @@ public class Cola {
     }
 
     public Pasajero cancelarPorAsiento(int asiento) {
-        // R3:
-        throw new UnsupportedOperationException("Pendiente implementar R3: cancelación");
+        // 1. Validar el rango del asiento (entre 1 y 30)
+        if (asiento < 1 || asiento > 30) {
+            throw new IllegalArgumentException("El asiento debe estar entre 1 y 30.");
+        }
+
+        // 2. Buscar al pasajero por número de asiento en la colección
+        Pasajero pasajeroEncontrado = null;
+        for (Pasajero p : coleccion) {
+            if (p.getNumeroAsiento() == asiento) {
+                pasajeroEncontrado = p;
+                break;
+            }
+        }
+
+        // 3. Si no se encuentra, lanzar NoSuchElementException
+        if (pasajeroEncontrado == null) {
+            throw new NoSuchElementException("No se encontró ningún pasajero asignado al asiento " + asiento);
+        }
+
+        // 4. Eliminar usando remove(pasajero) de la LinkedList y devolverlo
+        coleccion.remove(pasajeroEncontrado);
+        return pasajeroEncontrado;
     }
 
     @Override
