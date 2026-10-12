@@ -13,22 +13,28 @@ public class Cola {
     }
 
     public void agregar(Pasajero p) {
-        //Validamos que el pasajero no sea null o que su nombre no sea invalido(vacios o espacios).
-        //Utilizamos el trim como mas seguridad para borrar los espacios del principio y final
-        if (p == null|| p.getNombre() == null|| p.getNombre().trim().isEmpty())  {
+        // 1. Validar que el pasajero o su nombre no sean nulos o vacíos
+        if (p == null || p.getNombre() == null || p.getNombre().trim().isEmpty())  {
             throw new IllegalArgumentException("El pasajero o nombre no son validos");
         }
-        //Ver que no tengan el mismo numero de asiento
-        for (Pasajero existente : coleccion) { //Bucle for each
+
+        // 2. Validar estrictamente el rango del asiento (1 a 30) al inicio
+        if (p.getNumeroAsiento() < 1 || p.getNumeroAsiento() > 30) {
+            throw new IllegalArgumentException("El asiento debe estar entre 1 y 30.");
+        }
+
+        // 3. Validar que no tengan el mismo número de asiento repetido
+        for (Pasajero existente : coleccion) {
             if(existente.getNumeroAsiento() == p.getNumeroAsiento()){
                 throw new IllegalArgumentException("El numero de asiento ya esta ocupado");
             }
         }
-        //Contadores de los  tres tipos de clase
-        int contPrimera=0;
-        int contEjecutiva=0;
-        int contEconomica=0;
-        //Ver si esta llena los tipos de clases
+
+        // 4. Contadores de los tipos de clase
+        int contPrimera = 0;
+        int contEjecutiva = 0;
+        int contEconomica = 0;
+
         for (Pasajero existente : coleccion) {
             String tipo = existente.getTipoAsiento();
             if (tipo.equals("PRIMERA CLASE")) {
@@ -40,17 +46,16 @@ public class Cola {
             }
         }
 
-        // Validar que el nombre solo contenga letras y espacios
+        // 5. Validar que el nombre solo contenga letras y espacios
         String nombre = p.getNombre();
         for (int i = 0; i < nombre.length(); i++) {
             char caracter = nombre.charAt(i);
-
-            // Si el caracter NO es una letra y NO es un espacio, lanza el error
             if (!Character.isLetter(caracter) && caracter != ' ') {
                 throw new IllegalArgumentException("El nombre solo puede contener letras y espacios.");
             }
         }
-        // Validar límites estrictos
+
+        // 6. Validar límites de capacidad por clase
         String nuevoTipo = p.getTipoAsiento();
         if (nuevoTipo.equals("PRIMERA CLASE") && contPrimera >= 6) {
             throw new IllegalArgumentException("¡Primera Clase llena! Máximo 6 asientos.");
@@ -92,29 +97,36 @@ public class Cola {
     }
 
     public Pasajero buscarPorAsiento(int asiento) {
-        // 1. Validar que el asiento esté entre 1 y 30
         if (asiento < 1 || asiento > 30) {
             throw new IllegalArgumentException("El asiento debe estar entre 1 y 30.");
         }
-
-        // 2. Buscar al pasajero iterando sobre la colección (sin sacarlo de la fila)
         for (Pasajero p : coleccion) {
             if (p.getNumeroAsiento() == asiento) {
                 return p;
             }
         }
-
-        // 3. Si termina de revisar a todos y no lo encuentra, devuelve null
         return null;
     }
 
     public int posicionPorAsiento(int asiento) {
-        // TODO R2: posiciones desde 1; devolver -1 si no está en la fila.
-        throw new UnsupportedOperationException("Pendiente implementar R2: posición");
+        // Validación de rango R2
+        if (asiento < 1 || asiento > 30) {
+            throw new IllegalArgumentException("El asiento debe estar entre 1 y 30.");
+        }
+
+        // Recorrido con contador externo respetando orden FIFO
+        int contador = 1;
+        for (Pasajero p : coleccion) {
+            if (p.getNumeroAsiento() == asiento) {
+                return contador;
+            }
+            contador++;
+        }
+        return -1;
     }
 
     public Pasajero cancelarPorAsiento(int asiento) {
-        // TODO R3: retirar únicamente al indicado y conservar el orden restante.
+        // R3:
         throw new UnsupportedOperationException("Pendiente implementar R3: cancelación");
     }
 

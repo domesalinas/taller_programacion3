@@ -79,6 +79,18 @@ public class Ventana extends JFrame {
             lblMensaje.setText("Pasajero registrado: " + p.getNombre());
         }));
 
+        btnBuscar.addActionListener(e -> ejecutar(() -> {
+            int asientoBuscado = (Integer) spiConsulta.getValue();
+            Pasajero p = cola.buscarPorAsiento(asientoBuscado);
+            int posicion = cola.posicionPorAsiento(asientoBuscado);
+
+            if (p != null) {
+                lblMensaje.setText("Asiento " + asientoBuscado + " ocupado por: " + p.getNombre() + " (Posición # " + posicion + ")");
+            } else {
+                lblMensaje.setText("Asiento " + asientoBuscado + " está libre. Posición: " + posicion);
+            }
+        }));
+
         btnCancelar.addActionListener(e -> ejecutar(() -> {
             Pasajero p = cola.cancelarPorAsiento((Integer) spiConsulta.getValue());
             lblMensaje.setText("Registro cancelado: " + p.getNombre());
