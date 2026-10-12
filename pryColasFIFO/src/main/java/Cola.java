@@ -48,6 +48,17 @@ public class Cola {
         if (nuevoTipo.equals("PRIMERA CLASE") && contPrimera >= 6) {
             throw new IllegalArgumentException("¡Primera Clase llena! Máximo 6 asientos.");
         }
+        // Validar que el nombre solo contenga letras y espacios
+        String nombre = p.getNombre();
+        for (int i = 0; i < nombre.length(); i++) {
+            char caracter = nombre.charAt(i);
+
+            // Si el caracter NO es una letra y NO es un espacio, lanza el error
+            if (!Character.isLetter(caracter) && caracter != ' ') {
+                throw new IllegalArgumentException("El nombre solo puede contener letras y espacios.");
+            }
+        }
+
         if (nuevoTipo.equals("EJECUTIVA") && contEjecutiva >= 9) {
             throw new IllegalArgumentException("¡Clase Ejecutiva llena! Máximo 9 asientos.");
         }
@@ -87,8 +98,20 @@ public class Cola {
     }
 
     public Pasajero buscarPorAsiento(int asiento) {
-        // TODO R2: validar rango y buscar sin retirar pasajeros.
-        throw new UnsupportedOperationException("Pendiente implementar R2: búsqueda");
+        // 1. Validar que el asiento esté entre 1 y 30
+        if (asiento < 1 || asiento > 30) {
+            throw new IllegalArgumentException("El asiento debe estar entre 1 y 30.");
+        }
+
+        // 2. Buscar al pasajero iterando sobre la colección (sin sacarlo de la fila)
+        for (Pasajero p : coleccion) {
+            if (p.getNumeroAsiento() == asiento) {
+                return p;
+            }
+        }
+
+        // 3. Si termina de revisar a todos y no lo encuentra, devuelve null
+        return null;
     }
 
     public int posicionPorAsiento(int asiento) {
